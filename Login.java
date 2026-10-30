@@ -43,8 +43,6 @@ public class Login {
 
     public boolean loginUser(String username, String password) {
         if (registeredUsername == null || registeredPassword == null) {
-            // For lab testing, allow any login if not registered yet
-            // Change to strict check if needed:
             return username != null && password != null;
         }
         return registeredUsername.equals(username) && registeredPassword.equals(password);
