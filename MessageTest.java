@@ -2,67 +2,56 @@ package chatapp;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 public class MessageTest {
 
-    Message msg = new Message();
-
-    @Test
-    public void testCheckRecipientCellValid() {
-        String result = msg.checkRecipientCell("+27838968976");
-        assertEquals("Cell phone number successfully captured.", result);
+    @Before
+    public void setUp() {
+        Message.populateTestData();
     }
 
     @Test
-    public void testCheckRecipientCellInvalid() {
-        String result = msg.checkRecipientCell("08575975889");
-        assertTrue(result.contains("incorrectly formatted"));
+    public void testSentMessagesArrayCorrectlyPopulated() {
+        // Expected: "Did you get the cake?", "It is dinner time!"
+        assertEquals(2, Message.sentMessages.size());
+        assertTrue(Message.sentMessages.contains("Did you get the cake?"));
+        assertTrue(Message.sentMessages.contains("It is dinner time!"));
     }
 
     @Test
-    public void testCheckMessageLengthValid() {
-        String result = msg.checkMessageLength("Hi Mike, can you please come and bring a boat.");
-        assertEquals("Message ready to send.", result);
+    public void testDisplayLongestMessage() {
+        String expected = "Where are you? You are late! I have asked you to be on time.";
+        assertEquals(expected, Message.displayLongestMessage());
     }
 
     @Test
-    public void testCheckMessageLengthInvalid() {
-        // Create a message > 250 chars
-        String longMsg = "a".repeat(260);
-        String result = msg.checkMessageLength(longMsg);
-        assertTrue(result.contains("exceeds 250 characters"));
+    public void testSearchForMessageID() {
+        // Message 4 ID is 0838884567
+        String result = Message.searchByMessageID("0838884567");
+        assertEquals("It is dinner time!", result);
     }
 
     @Test
-    public void testCreateMessageHash() {
-        Message testMsg = new Message(0, "+27838968976", "Hi Mike, can you please come and bring a boat.");
-        // Hash should be like 00:0:HIBOAT or similar
-        String hash = testMsg.getMessageHash();
-        assertNotNull(hash);
-        assertFalse(hash.isEmpty());
-        assertTrue(hash.contains(":"));
+    public void testSearchByRecipient() {
+        // Test Data: +27838884567
+        String result = Message.searchByRecipient("+27838884567");
+        assertTrue(result.contains("Where are you? You are late! I have asked you to be on time."));
+        assertTrue(result.contains("Ok, I am leaving without you."));
     }
 
     @Test
-    public void testSentMessageSend() {
-        Message testMsg = new Message(1, "+27838968976", "Test");
-        String result = testMsg.SentMessage(1);
-        assertEquals("Message successfully sent.", result);
+    public void testDeleteMessageUsingHash() {
+        // Test Data: Message 2 hash
+        String result = Message.deleteByHash("1:1:WHEYOU");
+        assertEquals("Message: \"Where are you? You are late! I have asked you to be on time.\" successfully deleted.", result);
     }
 
     @Test
-    public void testSentMessageStore() {
-        Message testMsg = new Message(1, "+27838968976", "Test");
-        String result = testMsg.SentMessage(3);
-        assertEquals("Message successfully stored.", result);
-    }
-
-    @Test
-    public void testTotalMessages() {
-        int before = Message.returnTotalMessages();
-        Message testMsg = new Message(1, "+27838968976", "Test");
-        testMsg.SentMessage(1);
-        int after = Message.returnTotalMessages();
-        assertEquals(before + 1, after);
+    public void testDisplayReport() {
+        String report = Message.displayReport();
+        assertTrue(report.contains("Message Hash"));
+        assertTrue(report.contains("Recipient"));
+        assertTrue(report.contains("Message"));
     }
 }
