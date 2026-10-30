@@ -13,7 +13,6 @@ public class Message {
     
     private static int totalMessagesSent = 0;
 
-    // Part 3 Arrays
     public static List<String> sentMessages = new ArrayList<>();
     public static List<String> disregardedMessages = new ArrayList<>();
     public static List<Message> storedMessages = new ArrayList<>();
@@ -21,24 +20,20 @@ public class Message {
     public static List<String> messageIDs = new ArrayList<>();
     public static List<Message> allMessages = new ArrayList<>();
 
-    // Empty constructor for line: new Message()
     public Message() {
     }
 
-    // Constructor for ChatApp line 75: new Message(i, recipientCell, messageText)
     public Message(int messageNumber, String recipient, String text) {
         this.recipient = recipient;
         this.messageText = text;
         this.status = "Pending";
         this.messageID = createMessageID();
         this.messageHash = createMessageHash(this.messageID, messageNumber, text);
-        // For Part 3 lists
         this.allMessages.add(this);
         this.messageIDs.add(this.messageID);
         this.messageHashes.add(this.messageHash);
     }
 
-    // Constructor for Part 3 tests
     public Message(String id, String recipient, String text, String hash, String status) {
         this.messageID = id;
         this.recipient = recipient;
@@ -52,7 +47,6 @@ public class Message {
     public String getMessage() { return messageText; }
     public String getMessageHash() { return messageHash; }
 
-    // Part 2 methods
     public String checkRecipientCell(String cell) {
         if (cell != null && cell.length() <= 13 && cell.startsWith("+27")) {
             return "Cell phone number successfully captured";
@@ -86,7 +80,6 @@ public class Message {
         return this.messageHash;
     }
 
-    // FIX for error: method SentMessage(int) - ChatApp line 80
     public String SentMessage(int choice) {
         if (choice == 1) {
             this.status = "Sent";
@@ -114,12 +107,10 @@ public class Message {
                "Message: " + this.messageText;
     }
 
-    // FIX for error: method returnTotalMessages() - ChatApp line 114
     public static int returnTotalMessages() {
         return totalMessagesSent;
     }
 
-    // Part 3 methods for unit tests
     public static void populateTestData() {
         sentMessages.clear(); disregardedMessages.clear(); storedMessages.clear();
         messageHashes.clear(); messageIDs.clear(); allMessages.clear();
