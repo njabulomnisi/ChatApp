@@ -8,7 +8,6 @@ public class ChatApp {
         Scanner scanner = new Scanner(System.in);
         Login appLogin = new Login();
 
-        // --- PART 1 LOGIN (keep your existing logic) ---
         System.out.print("Enter username: ");
         String inputUser = scanner.nextLine();
         System.out.print("Enter password: ");
