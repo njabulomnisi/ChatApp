@@ -7,7 +7,6 @@ public class LoginTest {
 
     Login login = new Login();
 
-    // Username tests - from assignment memo
     @Test
     public void testCheckUserNameCorrectlyFormatted() {
         assertTrue(login.checkUserName("kyl_1"));
